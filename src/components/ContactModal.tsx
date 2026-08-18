@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, CheckCircle2, Mail, MessageCircle, ArrowUpRight } from 'lucide-react';
+import { X, Send, CheckCircle2, MessageCircle } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -53,10 +53,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
     }
   };
 
-  const handleDirectGmail = () => {
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${email || 'Client'}`);
-    const body = encodeURIComponent(message || 'Hello Ahmed,\n\nI would like to discuss a project with you.');
-    window.open(`mailto:ahmedelmogy.pro@gmail.com?subject=${subject}&body=${body}`, '_blank');
+  const handleCloseSuccess = () => {
+    setIsSuccess(false);
+    onClose();
+    setEmail('');
+    setMessage('');
   };
 
   return (
@@ -97,45 +98,25 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="py-10 flex flex-col items-center text-center gap-4"
+                className="py-12 flex flex-col items-center text-center gap-5"
               >
-                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#B600A8] to-[#7621B0] flex items-center justify-center shadow-lg">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#B600A8] to-[#7621B0] flex items-center justify-center shadow-xl shadow-[#B600A8]/25">
                   <CheckCircle2 className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black uppercase text-white tracking-wide">
                   Message Sent Successfully!
                 </h3>
                 <p className="text-[#D7E2EA]/80 max-w-md font-light text-sm sm:text-base leading-relaxed">
-                  Your message has been sent to <span className="text-white font-medium">ahmedelmogy.pro@gmail.com</span>. Ahmed will get back to you shortly!
+                  Thank you for reaching out! Your message has been sent directly to Ahmed. He will get back to you shortly.
                 </p>
 
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-[#D7E2EA]/70 max-w-md mt-2 text-left">
-                  <p className="text-emerald-400 font-medium mb-1">💡 First-time note:</p>
-                  <p>
-                    If this is your first submission, FormSubmit may send a one-time verification to activate free delivery. Please check your inbox or spam folder.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap justify-center gap-3 mt-4">
+                <div className="mt-4">
                   <button
                     type="button"
-                    onClick={handleDirectGmail}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-medium text-white transition-colors cursor-pointer"
+                    onClick={handleCloseSuccess}
+                    className="px-8 py-3 rounded-full bg-white/10 hover:bg-white/20 text-xs font-medium uppercase tracking-widest text-white transition-all cursor-pointer border border-white/15 hover:scale-105"
                   >
-                    <span>Open in Email App</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsSuccess(false);
-                      onClose();
-                      setEmail('');
-                      setMessage('');
-                    }}
-                    className="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-xs text-[#D7E2EA] transition-colors cursor-pointer"
-                  >
-                    Close
+                    Done
                   </button>
                 </div>
               </motion.div>
@@ -193,21 +174,13 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                   {/* Direct Contact Links & Submit */}
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-white/10">
                     <div className="flex items-center gap-3 text-xs text-[#D7E2EA]/70">
-                      <button
-                        type="button"
-                        onClick={handleDirectGmail}
-                        className="inline-flex items-center gap-1 hover:text-white transition-colors cursor-pointer underline text-[11px]"
-                      >
-                        <Mail className="w-3.5 h-3.5 text-[#B600A8]" />
-                        <span>Email Directly</span>
-                      </button>
                       <a
                         href="https://wa.me/201092806035?text=Hello%20Ahmed,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20chat!"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors text-[11px] font-medium"
+                        className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors text-xs font-medium"
                       >
-                        <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                        <MessageCircle className="w-4 h-4 text-emerald-400" />
                         <span>WhatsApp Chat ↗</span>
                       </a>
                     </div>
@@ -217,7 +190,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                       disabled={isSubmitting}
                       className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full font-medium uppercase tracking-widest px-8 py-3.5 text-sm text-white cursor-pointer transition-all shadow-lg hover:scale-105 active:scale-95 disabled:opacity-50"
                       style={{
-                        background: 'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 1000%)',
+                        background: 'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
                         boxShadow: '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset',
                         outline: '2px solid #FFFFFF',
                         outlineOffset: '-3px',
